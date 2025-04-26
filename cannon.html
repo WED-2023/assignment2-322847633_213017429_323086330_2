@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Chicken Attack Game</title>
+  <link rel="stylesheet" href="style.css">
+
+</head>
+
+<body>
+
+  <!-- Menu -->
+  <div class="menu">
+    <button onclick="showSection('welcomeSection')">Welcome</button>
+    <button onclick="showSection('aboutSection')">About</button>
+    <button onclick="showSection('registerSection')">Register</button>
+    <button onclick="showSection('loginSection')">Login</button>
+  </div>
+
+  <!-- Welcome -->
+  <div id="welcomeSection" class="section" style="display: block;">
+    <h1>Greetings from Chicken Invaders!</h1>
+    <h2>Team Members:</h2>
+    <ul style="list-style: none; padding: 0;">
+      <li>Aseel Zatout: 322847633</li>
+      <li>Jawad Dabbah: 323086330</li>
+      <li>Hasan Diab: 00000000</li>
+    </ul>
+  </div>
+
+  <!-- About (Empty now) -->
+  <div id="aboutSection" class="section" style="display: none;"></div>
+
+  <!-- Register -->
+  <div id="registerSection" class="section" style="display: none;">
+    <h2>Register</h2>
+    <form>
+      <input type="text" placeholder="Username" required><br><br>
+      <input type="password" placeholder="Password" required><br><br>
+      <input type="password" placeholder="Confirm Password" required><br><br>
+      <input type="text" placeholder="First Name" required><br><br>
+      <input type="text" placeholder="Last Name" required><br><br>
+      <input type="email" placeholder="Email" required><br><br>
+      <input type="date" placeholder="Birth Date" required><br><br>
+      <button type="submit">Sign Up</button>
+    </form>
+  </div>
+
+  <!-- Login -->
+  <div id="loginSection" class="section" style="display: none;">
+    <h2>Login</h2>
+    <form>
+      <input type="text" placeholder="Username" required><br><br>
+      <input type="password" placeholder="Password" required><br><br>
+      <button type="submit">Log In</button>
+    </form>
+  </div>
+
+  <!-- JavaScript -->
+  <script>
+    function showSection(sectionId) {
+      const sections = ['welcomeSection', 'aboutSection', 'registerSection', 'loginSection'];
+
+      sections.forEach(id => {
+        const element = document.getElementById(id);
+        if (element) {
+          element.style.display = (id === sectionId) ? 'block' : 'none';
+        }
+      });
+
+      if (sectionId === 'aboutSection') {
+        loadAboutContent();
+      }
+    }
+
+    function loadAboutContent() {
+      const aboutDiv = document.getElementById('aboutSection');
+      aboutDiv.innerHTML = `
+        <h1>About Chicken Attack</h1>
+        <p>Created by Aseel Zatout, Jawad Dabbah, Hasan Diab.</p>
+        <h2>Game Instructions</h2>
+        <ul style="list-style: none; padding: 0;">
+          <li>Each time an enemy ship hits the wall, it moves closer to your ship.</li>
+          <li>If your ship touches an enemy, you lose all lives.</li>
+          <li>You can set your own game time (minimum 2 minutes).</li>
+          <li>Defeated enemies drop meat you must collect to score points.</li>
+          <li>Every 5 seconds, a bonus item drops worth 10 points.</li>
+        </ul>
+        <h2>Challenges</h2>
+        <ul style="list-style: none; padding: 0;">
+          <li>Enemies move unpredictably.</li>
+          <li>Limited ammunition for the player.</li>
+          <li>Obstacles fall onto the battlefield.</li>
+          <li>Some enemies require multiple hits to destroy.</li>
+          <li>Enemies speed up randomly during the game.</li>
+        </ul>
+      `;
+    }
+  </script>
+
+</body>
+</html>
