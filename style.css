@@ -21,14 +21,18 @@ body {
     text-align: center;
   }
   .menu button {
-    background-color: #333;
-    color: white;
+    background: linear-gradient(135deg, #FFD700, #FFA500); /* Yellow to orange gradient */
+    color: black; /* Black text on yellow */
     border: none;
-    padding: 10px 20px;
-    margin: 5px;
-    border-radius: 5px;
+    padding: 20px 60px; /* Much bigger buttons */
+    margin: 15px 0;
+    border-radius: 40px; /* Very rounded */
     cursor: pointer;
-    font-size: 16px;
+    font-size: 24px; /* Bigger font */
+    font-weight: bold;
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.4); /* Nice strong shadow */
+    transition: transform 0.3s, box-shadow 0.3s;
+    display: inline-block;
   }
   .menu button:hover {
     background-color: #555;
@@ -39,20 +43,40 @@ body {
     font-size: 30px;    /* Make text bigger */
   }
   .teamMembers {
-    text-align: center; /* Center the text */
-    font-size: 40px;    /* Make the text bigger */
-    margin: 70px auto;  /* Center the div itself */
-    max-width: 1000px;   /* Limit the width so it's not too wide */
+    text-align: left; /* Centered under the greeting */
+    font-size: 20px;    /* Smaller font */
+    margin-top: 10px;   /* Small space below the H1 */
+    color: white;       /* Keep it white */
   }
   
-  .teamMembers ul {
-    list-style: none;
-    padding: 0;
+  
+  .welcomeButtons {
+    margin-top: 30px;
+    text-align: left; /* move buttons to the left */
+    margin-left: 80px; /* small space from the left edge */
   }
   
-  .teamMembers li {
-    margin: 10px 0;     /* Space between names */
+  .welcomeButtons button {
+    background: linear-gradient(135deg, #FFD700, #FFA500); /* Yellow to orange gradient */
+    color: black; /* Black text on yellow */
+    border: none;
+    padding: 20px 60px; /* Much bigger buttons */
+    margin: 15px 0;
+    border-radius: 40px; /* Very rounded */
+    cursor: pointer;
+    font-size: 24px; /* Bigger font */
+    font-weight: bold;
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.4); /* Nice strong shadow */
+    transition: transform 0.3s, box-shadow 0.3s;
+    display: inline-block;
   }
+  
+  .welcomeButtons button:hover {
+    transform: scale(1.07); /* Pop out more on hover */
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.5); /* Stronger shadow */
+  }
+  
+  
   
   input {
     font-size: 20px; /* make the text inside input boxes bigger */
