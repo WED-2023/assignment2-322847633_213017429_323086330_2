@@ -34,7 +34,35 @@ body {
     background-color: #555;
   }
   .section {
-    text-align: center;
-    margin-top: 20px;
+    text-align: left;   /* Make text go to the left */
+    margin: 70px;       /* Add space from the edges */
+    font-size: 30px;    /* Make text bigger */
+  }
+  .teamMembers {
+    text-align: center; /* Center the text */
+    font-size: 40px;    /* Make the text bigger */
+    margin: 70px auto;  /* Center the div itself */
+    max-width: 1000px;   /* Limit the width so it's not too wide */
+  }
+  
+  .teamMembers ul {
+    list-style: none;
+    padding: 0;
+  }
+  
+  .teamMembers li {
+    margin: 10px 0;     /* Space between names */
+  }
+  
+  input {
+    font-size: 20px; /* make the text inside input boxes bigger */
+    padding: 10px;   /* make the input boxes themselves larger */
+    width: 300px;    /* optional: make inputs wider */
+    margin: 5px 0;   /* optional: spacing between inputs */
+  }
+  
+  button {
+    font-size: 20px; /* make button text bigger too */
+    padding: 10px 20px;
   }
   

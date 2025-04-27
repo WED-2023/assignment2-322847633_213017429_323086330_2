@@ -4,99 +4,220 @@
   <meta charset="UTF-8">
   <title>Chicken Attack Game</title>
   <link rel="stylesheet" href="style.css">
-
 </head>
 
 <body>
 
-  <!-- Menu -->
-  <div class="menu">
-    <button onclick="showSection('welcomeSection')">Welcome</button>
-    <button onclick="showSection('aboutSection')">About</button>
-    <button onclick="showSection('registerSection')">Register</button>
-    <button onclick="showSection('loginSection')">Login</button>
-  </div>
+<!-- Menu -->
+<div class="menu">
+  <button onclick="showSection('welcomeSection')">Welcome</button>
+  <button onclick="showSection('aboutSection')">About</button>
+  <button onclick="showSection('registerSection')">Register</button>
+  <button onclick="showSection('loginSection')">Login</button>
+</div>
 
-  <!-- Welcome -->
-  <div id="welcomeSection" class="section" style="display: block;">
-    <h1>Greetings from Chicken Invaders!</h1>
+<!-- Welcome Section -->
+<div id="welcomeSection" class="section" style="display: block;">
+  <h1>Greetings from Chicken Invaders!</h1>
+  <div class="teamMembers">
     <h2>Team Members:</h2>
     <ul style="list-style: none; padding: 0;">
       <li>Aseel Zatout: 322847633</li>
       <li>Jawad Dabbah: 323086330</li>
-      <li>Hasan Diab: 00000000</li>
+      <li>Hasan Diab: 213017429</li>
     </ul>
   </div>
+</div>
 
-  <!-- About (Empty now) -->
-  <div id="aboutSection" class="section" style="display: none;"></div>
+<!-- About Section -->
+<div id="aboutSection" class="section" style="display: none;"></div>
 
-  <!-- Register -->
-  <div id="registerSection" class="section" style="display: none;">
-    <h2>Register</h2>
-    <form>
-      <input type="text" placeholder="Username" required><br><br>
-      <input type="password" placeholder="Password" required><br><br>
-      <input type="password" placeholder="Confirm Password" required><br><br>
-      <input type="text" placeholder="First Name" required><br><br>
-      <input type="text" placeholder="Last Name" required><br><br>
-      <input type="email" placeholder="Email" required><br><br>
-      <input type="date" placeholder="Birth Date" required><br><br>
-      <button type="submit">Sign Up</button>
-    </form>
-  </div>
+<!-- Register Section -->
+<div id="registerSection" class="section" style="display: none;">
+  <h2>Register</h2>
+  <form onsubmit="signup(); return false;">
+    <input id="username" type="text" placeholder="Username" required><br><br>
+    <input id="Password" type="password" placeholder="Password" required><br><br>
+    <input id="confirmPass" type="password" placeholder="Confirm Password" required><br><br>
+    <input id="Firstname" type="text" placeholder="First Name" required><br><br>
+    <input id="Lastname" type="text" placeholder="Last Name" required><br><br>
+    <input id="email" type="email" placeholder="Email" required><br><br>
+    <input id="bdate" type="text" placeholder="DD/MM/YYYY" required><br><br>
 
-  <!-- Login -->
-  <div id="loginSection" class="section" style="display: none;">
-    <h2>Login</h2>
-    <form>
-      <input type="text" placeholder="Username" required><br><br>
-      <input type="password" placeholder="Password" required><br><br>
-      <button type="submit">Log In</button>
-    </form>
-  </div>
+    <button type="submit">Sign Up</button>
+  </form>
+</div>
 
-  <!-- JavaScript -->
-  <script>
-    function showSection(sectionId) {
-      const sections = ['welcomeSection', 'aboutSection', 'registerSection', 'loginSection'];
+<!-- Login Section -->
+<div id="loginSection" class="section" style="display: none;">
+  <h2>Login</h2>
+  <form onsubmit="login(); return false;">
+    <input id="LoginUsername" type="text" placeholder="Username" required><br><br>
+    <input id="Loginpass" type="password" placeholder="Password" required><br><br>
+    <button type="submit">Log In</button>
+  </form>
+</div>
 
-      sections.forEach(id => {
-        const element = document.getElementById(id);
-        if (element) {
-          element.style.display = (id === sectionId) ? 'block' : 'none';
-        }
-      });
+<!-- Configuration Section -->
+<div id="configSection" class="section" style="display: none;">
+  <h2>Configuration Settings</h2>
+  <form id="configForm" autocomplete="off">
+    <div>
+      <label for="shootKey">Choose Shooting Key (Letter or Space):</label><br>
+      <input id="shootKey" type="text"   maxlength="1" placeholder="Enter a key" required><br><br>
+    </div>
+    <div>
+      <label for="gameTime">Set Game Time (minutes):</label><br>
+      <input id="gameTime" type="number" min="2" placeholder="Minimum 2 minutes" required><br><br>
+    </div>
+    <div>
+      <label for="shipColor">Choose Ship Color:</label><br>
+      <input id="shipColor" type="color" value="#ffffff"><br><br>
+    </div>
+    <button type="button" onclick="startGame()">Start Game</button>
+  </form>
+</div>
 
-      if (sectionId === 'aboutSection') {
-        loadAboutContent();
-      }
+<!-- JavaScript -->
+<script>
+const players = {};
+players['p'] = "testuser";
+let currentPlayer = null;
+let scores = [];
+
+function showSection(sectionId) {
+  const sections = ['welcomeSection', 'aboutSection', 'registerSection', 'loginSection', 'configSection'];
+
+  sections.forEach(id => {
+    const element = document.getElementById(id);
+    if (element) {
+      element.style.display = (id === sectionId) ? 'block' : 'none';
     }
+  });
 
-    function loadAboutContent() {
-      const aboutDiv = document.getElementById('aboutSection');
-      aboutDiv.innerHTML = `
-        <h1>About Chicken Attack</h1>
-        <p>Created by Aseel Zatout, Jawad Dabbah, Hasan Diab.</p>
-        <h2>Game Instructions</h2>
-        <ul style="list-style: none; padding: 0;">
-          <li>Each time an enemy ship hits the wall, it moves closer to your ship.</li>
-          <li>If your ship touches an enemy, you lose all lives.</li>
-          <li>You can set your own game time (minimum 2 minutes).</li>
-          <li>Defeated enemies drop meat you must collect to score points.</li>
-          <li>Every 5 seconds, a bonus item drops worth 10 points.</li>
-        </ul>
-        <h2>Challenges</h2>
-        <ul style="list-style: none; padding: 0;">
-          <li>Enemies move unpredictably.</li>
-          <li>Limited ammunition for the player.</li>
-          <li>Obstacles fall onto the battlefield.</li>
-          <li>Some enemies require multiple hits to destroy.</li>
-          <li>Enemies speed up randomly during the game.</li>
-        </ul>
-      `;
-    }
-  </script>
+  if (sectionId === 'aboutSection') {
+    loadAboutContent();
+  }
+}
+
+function loadAboutContent() {
+  const aboutDiv = document.getElementById('aboutSection');
+  aboutDiv.innerHTML = `
+    <h1>About Chicken Attack</h1>
+    <p>Created by Aseel Zatout, Jawad Dabbah, Hasan Diab.</p>
+    <h2>Game Instructions</h2>
+    <ul style="list-style: none; padding: 0;">
+      <li>Each time an enemy ship hits the wall, it moves closer to your ship.</li>
+      <li>If your ship touches an enemy, you lose all lives.</li>
+      <li>You can set your own game time (minimum 2 minutes).</li>
+      <li>Defeated enemies drop meat you must collect to score points.</li>
+      <li>Every 5 seconds, a bonus item drops worth 10 points.</li>
+    </ul>
+    <h2>Challenges</h2>
+    <ul style="list-style: none; padding: 0;">
+      <li>Enemies move unpredictably.</li>
+      <li>Limited ammunition for the player.</li>
+      <li>Obstacles fall onto the battlefield.</li>
+      <li>Some enemies require multiple hits to destroy.</li>
+      <li>Enemies speed up randomly during the game.</li>
+    </ul>
+  `;
+}
+
+function signup() {
+  const username = document.getElementById("username").value.trim();
+  const password = document.getElementById("Password").value.trim();
+  const confirmPass = document.getElementById("confirmPass").value.trim();
+  const firstName = document.getElementById("Firstname").value.trim();
+  const lastName = document.getElementById("Lastname").value.trim();
+  const email = document.getElementById("email").value.trim();
+  const bdate = document.getElementById("bdate").value.trim();
+
+  if ([username, password, confirmPass, firstName, lastName, email, bdate].includes("")) {
+    alert("All fields must be completed!");
+    return;
+  }
+
+  const passwordPattern = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/;
+  if (!passwordPattern.test(password)) {
+    alert("Password must be at least 8 characters and contain both letters and numbers.");
+    return;
+  }
+
+  const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  if (!emailPattern.test(email)) {
+    alert("Please enter a valid email address.");
+    return;
+  }
+
+  if (password !== confirmPass) {
+    alert("Passwords do not match!");
+    return;
+  }
+
+  players[username] = password;
+  alert("Registration successful!");
+  showSection('welcomeSection');
+}
+
+function login() {
+  const username = document.getElementById("LoginUsername").value.trim();
+  const password = document.getElementById("Loginpass").value.trim();
+
+  if (!players.hasOwnProperty(username)) {
+    alert("Username not found. Please sign up first!");
+    return;
+  }
+
+  if (players[username] !== password) {
+    alert("Incorrect password. Please try again.");
+    return;
+  }
+
+  if (currentPlayer !== username) {
+    currentPlayer = username;
+    scores.length = 0;
+  }
+
+  showSection('configSection');
+}
+
+function startGame() {
+  let shootKey = document.getElementById("shootKey").value;
+
+  if (shootKey === "") {
+    alert("Please enter a shooting key!");
+    return;
+  }
+
+  // If user typed space, convert it manually
+  if (shootKey === " ") {
+    shootKey = "SPACE";
+  } else {
+    shootKey = shootKey.trim().toUpperCase();
+  }
+
+  const gameTime = parseInt(document.getElementById("gameTime").value.trim(), 10);
+
+  // Validate: must be a single letter A-Z or SPACE
+  if (shootKey !== "SPACE" && (shootKey.length !== 1 || !/^[A-Z]$/.test(shootKey))) {
+    alert("Shooting key must be a single letter (A-Z) or Space key!");
+    return;
+  }
+
+  if (isNaN(gameTime) || gameTime < 2) {
+    alert("Game time must be at least 2 minutes.");
+    return;
+  }
+
+  const shipColor = document.getElementById("shipColor").value;
+
+  alert(`Starting game!\nShoot Key: "${shootKey}"\nGame Time: ${gameTime} minutes\nShip Color: ${shipColor}`);
+  
+  
+}
+
+</script>
 
 </body>
 </html>
