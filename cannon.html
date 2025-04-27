@@ -25,6 +25,14 @@
   <p class="teamMembers">
     Team Members: Aseel Zatout 322847633, Jawad Dabbah 323086330, Hasan Diab 213017429
   </p>
+  
+  <p class="teamLinks">
+    Visit our personal sites:
+    <a href="https://wed-2023.github.io/322847633/" target="_blank">Aseel's Site</a> |
+    <a href="https://wed-2023.github.io/assignment1-JAWADDAB/" target="_blank">Jawad's Site</a> | 
+    <a href="https://wed-2023.github.io/213017429/" target="_blank">Hasan's Site</a>  
+  
+  </p>
 
   <div class="welcomeButtons">
     <div class="aboutArea">
@@ -80,8 +88,8 @@
     <label>Choose Shooting Key (letter or Space):<br>
       <input id="shootKey" type="text" maxlength="1" placeholder="Key" required>
     </label><br><br>
-    <label>Set Game Time (minutes ≥2):<br>
-      <input id="gameTime" type="number" min="2" placeholder="Minutes" required>
+    <label>Set Game Time (seconds ≥120):<br>
+      <input id="gameTime" type="number" min="120" placeholder="Seconds" required>
     </label><br><br>
     <label>Choose Ship Color:<br>
       <input id="shipColor" type="color" value="#ffffff">
@@ -89,13 +97,24 @@
     <button type="button" onclick="showGameScreen()">Start Game</button>
   </form>
 </div>
-
 <!-- GAME SCREEN -->
 <div class="Game_Screen" style="display:none;">
   <div class="score"><span>Score: </span><span class="score-num">0</span></div><br><br>
   <div class="time"><span>Time: </span><span class="time-num">0</span></div>
+  <div class="lives"><span>Lives: </span><span class="lives-container"></span></div>
+  <button id="pauseButton" class="pause-button">⏸️</button>
 
   <canvas class="canvas" id="canvas"></canvas>
+
+  <!-- Pause Menu -->
+  <div class="pause-menu" style="display:none;">
+    <div class="pause-content">
+      <h2>Game Paused</h2>
+      <button id="continueButton" class="pause-btn">Continue</button>
+      <button id="restartButton" class="pause-btn">Restart</button>
+      <button id="homeButton" class="pause-btn">Back to Homepage</button>
+    </div>
+  </div>
 
   <div class="result" style="display:none;">
     <div class="game-over">
@@ -115,6 +134,7 @@
     <thead><tr><th>Player</th><th>Score</th></tr></thead>
     <tbody id="table_body"></tbody>
   </table>
+  <button class="back-btn" onclick="hideLeaderboard()">Back to Results</button>
 </div>
 
 <!-- Inline helpers -->
@@ -137,7 +157,32 @@ function showSection(id){
       document.getElementById(sec).style.display = (sec===id?'block':'none');
   });
   if(id==='aboutSection')
-    $('#aboutSection').html('<h1>About Chicken Attack</h1><p>Enjoy!</p>');
+    loadAboutContent();
+}
+
+/* About section content loader */
+function loadAboutContent() {
+  const aboutDiv = document.getElementById('aboutSection');
+  aboutDiv.innerHTML = `
+    <h1>About Chicken Attack</h1>
+    <p>Created by Aseel Zatout, Jawad Dabbah, Hasan Diab.</p>
+    <h2>Game Instructions</h2>
+    <ul style="list-style: none; padding: 0;">
+      <li>Each time an enemy ship hits the wall, it moves closer to your ship.</li>
+      <li>If your ship touches an enemy, you lose all lives.</li>
+      <li>You can set your own game time (minimum 2 minutes).</li>
+      <li>Defeated enemies drop meat you must collect to score points.</li>
+      <li>Every 5 seconds, a bonus item drops worth 10 points.</li>
+    </ul>
+    <h2>Challenges</h2>
+    <ul style="list-style: none; padding: 0;">
+      <li>Enemies move unpredictably.</li>
+      <li>Limited ammunition for the player.</li>
+      <li>Obstacles fall onto the battlefield.</li>
+      <li>Some enemies require multiple hits to destroy.</li>
+      <li>Enemies speed up randomly during the game.</li>
+    </ul>
+  `;
 }
 
 /* signup */
@@ -147,10 +192,10 @@ function signup(){
      'Lastname','email','bdate'].map(i=>$('#'+i).val().trim());
 
   if([u,p,cp,f,l,e,b].includes(""))      return alert("Fill all fields!");
-  if(!/^(?=.*[A-Za-z])(?=.*\\d)[A-Za-z\\d]{8,}$/.test(p))
+  if(!/^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/.test(p))
     return alert("Password ≥8 chars with letters+digits");
   if(p!==cp)                            return alert("Passwords mismatch");
-  if(!/^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$/.test(e))
+  if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(e))
     return alert("Invalid email");
 
   players[u]=p; alert("Registration successful!"); showSection('welcomeSection');
@@ -171,12 +216,12 @@ function showGameScreen () {
         t   = parseInt($('#gameTime').val(), 10),
         col = $('#shipColor').val();
 
-  if ((key.length !== 1 && key !== ' ') || t < 2) {
-    return alert('Fix inputs');
+  if ((key.length !== 1 && key !== ' ') || t < 120) {
+    return alert('Fix inputs - Game time must be at least 120 seconds');
   }
 
   shoot_key = (key === ' ') ? ' ' : key.toLowerCase();
-  timeLeft1 = t * 60;          // minutes → seconds
+  timeLeft1 = t;          // directly use seconds
   shipColor = col;
 
   // hide every other section + the top menu, then show the canvas
@@ -186,7 +231,13 @@ function showGameScreen () {
   // remove galaxy wallpaper so only the canvas appears
   document.getElementById('body').style.backgroundImage = 'none';
 
-  initGame();        // defined in cannon.js
+  startGame();        // updated to call startGame instead of initGame
+}
+
+/* Add a function to hide the leaderboard and show game over screen */
+function hideLeaderboard() {
+  document.querySelector(".leaderboard-container").style.display = "none";
+  document.querySelector(".Game_Screen").style.display = "block";
 }
 
 </script>
